@@ -43,11 +43,11 @@ const ContactsList = () => {
                         <tbody>
                             {contacts.map(cx => (
                                 <tr key={cx.id}>
-                                    <td className="text-emd">{cx.id}</td>
-                                    <td className="text-start">{cx.fullName}</td>
+                                    <td className="text-center">{cx.id}</td>
+                                    <td className="text-center">{cx.name}</td>
                                     <td className="text-center">{cx.mobile}</td>
-                                    <td className="text-start">{cx.mailId}</td>
-                                    <td className="text-end">
+                                    <td className="text-center">{cx.mailId}</td>
+                                    <td className="text-center">
                                         <Link className="btn btn-sm me-1" to={`/edit/${cx.id}`}>
                                             <i className="bi bi-pen text-secondary" />
                                         </Link>

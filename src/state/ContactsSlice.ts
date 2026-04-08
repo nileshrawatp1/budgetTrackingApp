@@ -48,7 +48,7 @@ export const updateContact = createAsyncThunk<Contact, Contact>(
         try {
             data = (await axios.put(apiUrl + "/" + contact.id, contact)).data;
         } catch (err) {
-            throw new Error('Failed to save');
+            throw new Error('Failed to save ' + err);
         }
         return data;
     }

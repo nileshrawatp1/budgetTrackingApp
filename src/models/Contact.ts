@@ -1,6 +1,6 @@
 export interface Contact {
     id:number;
-    fullName:string;
+    name:string;
     mobile:string;
     mailId:string;
 }

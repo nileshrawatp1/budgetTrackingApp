@@ -7,11 +7,12 @@ import { addContact, selectContact, updateContact } from "../state/ContactsSlice
 
 const ContactForm = () => {
 
-    const [contact,setContact] = useState<Contact>({id:0,fullName:'',mailId:'',mobile:''});
+    const [contact,setContact] = useState<Contact>({id:0,name:'',mobile:'',mailId:''});
     const [isEditing,setEditing] = useState<boolean>(false);
 
     const dispatch : AppDispatch = useDispatch();
     const selectedContact:Contact|undefined = useSelector((state:RootState) => state.contactsSlice.selectedContact);
+    const contacts: Contact[] = useSelector((state: RootState) => state.contactsSlice.contacts)
     
     const add = (contact:Contact) => dispatch(addContact(contact))
     const update = (contact:Contact) => dispatch(updateContact(contact))
@@ -23,9 +24,10 @@ const ContactForm = () => {
     useEffect(()=>{
         if(params.id){
             setEditing(true);
-            getContact(Number(params.id));                      
+            getContact(Number(params.id));                
         }else{
             setEditing(false);
+            setContact({id: contacts.length + 1, name:'', mobile:'', mailId:''});  ;
         }
     },[params]);
 
@@ -56,8 +58,8 @@ const ContactForm = () => {
                 </div>
                 <div className="form-group mb-1">
                     <label className="form-label">Full Name</label>
-                    <input type="text" className="form-control" value={contact.fullName} 
-                    onChange={ e => setContact({...contact, fullName:e.target.value})} />
+                    <input type="text" className="form-control" value={contact.name} 
+                    onChange={ e => setContact({...contact, name:e.target.value})} />
                 </div>
                 <div className="form-group mb-1">
                     <label className="form-label">Mobile</label>
