@@ -13,7 +13,7 @@ const initialState: ContactState = {
     contacts: []
 };
 
-const apiUrl = "http://localhost:9999/contacts";
+const apiUrl = "http://localhost:9999/Customers";
 
 export const loadContacts = createAsyncThunk<Contact[], void>(
     'ContactsSlice/loadContacts',
@@ -71,7 +71,7 @@ const ContactsSlice = createSlice({
     initialState,
     reducers: {
         selectContact : (state, action:PayloadAction<Number>) => {
-            state.selectedContact = state.contacts.find(cx => cx.id===action.payload);                        
+            state.selectedContact = state.contacts.find(cx => cx.id===action.payload);
         }
     },
     extraReducers: (builder) => {
