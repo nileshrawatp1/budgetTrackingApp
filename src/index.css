@@ -1,0 +1,9 @@
+.arrow-icon {
+    display: inline-block;
+    transition: transform 0.3s ease; /* Makes the rotation smooth */
+}
+
+/* When the state is open, rotate 180 degrees */
+.rotate-down {
+    transform: rotate(180deg);
+}

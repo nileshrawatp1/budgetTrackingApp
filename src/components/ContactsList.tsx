@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import MsgBox from "./MsgBox";
 import { Link } from "react-router";
@@ -12,6 +12,11 @@ const ContactsList = () => {
     const inProgress: boolean | undefined = useSelector((state: RootState) => state.contactsSlice.inProgress)
     const errMsg: string | undefined = useSelector((state: RootState) => state.contactsSlice.errMsg)
     const dispatch: AppDispatch = useDispatch();
+    const [openId, setOpenId] = useState<number | null>(null);
+
+    const toggleArrow = (id: number) => {
+        setOpenId(prevId => (prevId === id ? null : id));
+    };
 
     useEffect(() => {
         dispatch(loadContacts())
@@ -54,8 +59,9 @@ const ContactsList = () => {
                                                     data-bs-target={`#details-${cx.id}`}
                                                     aria-expanded="false"
                                                     aria-controls={`details-${cx.id}`}
+                                                    onClick={() => toggleArrow(cx.id)}
                                                 >
-                                                    <i className="bi bi-chevron-down"></i>
+                                                    <i className={`bi bi-chevron-up arrow-icon ${openId === cx.id ? 'rotate-down' : ''}`}></i>
                                                 </button>
                                             </td>
                                             <td>{cx.id}</td>
@@ -82,56 +88,56 @@ const ContactsList = () => {
                                                         {cx.Accounts && cx.Accounts.length > 0 ? (
                                                             <table className="table table-hover mb-0">
                                                                 <thead>
-                                                                <tr style={{ backgroundColor: '#e9ecef' }}>
-                                                                    <th>Account#</th>
-                                                                    <th>Type</th>
-                                                                    <th>Current Balance</th>
-                                                                    <th>Transactions</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {cx.Accounts.map(acc => (
-                                                                    <tr key={acc.accountNum}>
-                                                                        <td>{acc.accountNum}</td>
-                                                                        <td>{acc.type}</td>
-                                                                        <td>${acc.currBalance}</td>
-                                                                        <td>
-                                                                            {acc.transactions && acc.transactions.length > 0 ? (
-                                                                                <table className="table table-sm mb-0">
-                                                                                    <thead>
-                                                                                        <tr style={{ backgroundColor: '#f8f9fa' }}>
-                                                                                            <th>Txn ID</th>
-                                                                                            <th>Date</th>
-                                                                                            <th>Header</th>
-                                                                                            <th>Amount</th>
-                                                                                            <th>Type</th>
-                                                                                        </tr>
-                                                                                    </thead>
-                                                                                    <tbody>
-                                                                                        {acc.transactions.map(txn => (
-                                                                                            <tr key={txn.txnId}>
-                                                                                                <td>{txn.txnId}</td>
-                                                                                                <td>{txn.txnDate}</td>
-                                                                                                <td>{txn.header}</td>
-                                                                                                <td>${txn.amount}</td>
-                                                                                                <td>{txn.txnType}</td>
-                                                                                            </tr>
-                                                                                        ))}
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            ) : (
-                                                                                <span className="text-muted">No transactions</span>
-                                                                            )}
-                                                                        </td>
+                                                                    <tr style={{ backgroundColor: '#e9ecef' }}>
+                                                                        <th>Account#</th>
+                                                                        <th>Type</th>
+                                                                        <th>Current Balance</th>
+                                                                        <th>Transactions</th>
                                                                     </tr>
-                                                                ))}
-                                                            </tbody>
-                                                        </table>
-                                                    ) : (
-                                                        <p className="text-muted p-3">No accounts found</p>
-                                                    )}
+                                                                </thead>
+                                                                <tbody>
+                                                                    {cx.Accounts.map(acc => (
+                                                                        <tr key={acc.accountNum}>
+                                                                            <td>{acc.accountNum}</td>
+                                                                            <td>{acc.type}</td>
+                                                                            <td>${acc.currBalance}</td>
+                                                                            <td>
+                                                                                {acc.transactions && acc.transactions.length > 0 ? (
+                                                                                    <table className="table table-sm mb-0">
+                                                                                        <thead>
+                                                                                            <tr style={{ backgroundColor: '#f8f9fa' }}>
+                                                                                                <th>Txn ID</th>
+                                                                                                <th>Date</th>
+                                                                                                <th>Header</th>
+                                                                                                <th>Amount</th>
+                                                                                                <th>Type</th>
+                                                                                            </tr>
+                                                                                        </thead>
+                                                                                        <tbody>
+                                                                                            {acc.transactions.map(txn => (
+                                                                                                <tr key={txn.txnId}>
+                                                                                                    <td>{txn.txnId}</td>
+                                                                                                    <td>{txn.txnDate}</td>
+                                                                                                    <td>{txn.header}</td>
+                                                                                                    <td>${txn.amount}</td>
+                                                                                                    <td>{txn.txnType}</td>
+                                                                                                </tr>
+                                                                                            ))}
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                ) : (
+                                                                                    <span className="text-muted">No transactions</span>
+                                                                                )}
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                </tbody>
+                                                            </table>
+                                                        ) : (
+                                                            <p className="text-muted p-3">No accounts found</p>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
                                             </td>
                                         </tr>
                                     </React.Fragment>
